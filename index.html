@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Periodic Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Modern Periodic Table</h1>
+    <p>Enter an atomic number (1-20) to get the details of the element.</p>
+    
+    <form id="elementForm">
+        <label for="atomicNumber">Atomic Number:</label>
+        <input type="number" id="atomicNumber" min="1" max="20" required>
+        <button type="submit">Get Element</button>
+    </form>
+
+    <div id="output"></div>
+
+    <script>
+        class Element {
+            constructor(atomicNumber, symbol, name, group) {
+                this.atomicNumber = atomicNumber;
+                this.symbol = symbol;
+                this.name = name;
+                this.group = group;
+            }
+
+            display() {
+                return `
+                    <h3>Element Details:</h3>
+                    <p><strong>Atomic Number:</strong> ${this.atomicNumber}</p>
+                    <p><strong>Symbol:</strong> ${this.symbol}</p>
+                    <p><strong>Name:</strong> ${this.name}</p>
+                    <p><strong>Group:</strong> ${this.group}</p>
+                `;
+            }
+        }
+
+        function getElement(atomicNumber) {
+            const elements = {
+                1: new Element(1, "H", "Hydrogen", "Nonmetal"),
+                2: new Element(2, "He", "Helium", "Noble Gas"),
+                3: new Element(3, "Li", "Lithium", "Alkali Metal"),
+                4: new Element(4, "Be", "Beryllium", "Alkaline Earth Metal"),
+                5: new Element(5, "B", "Boron", "Metalloid"),
+                6: new Element(6, "C", "Carbon", "Nonmetal"),
+                7: new Element(7, "N", "Nitrogen", "Nonmetal"),
+                8: new Element(8, "O", "Oxygen", "Nonmetal"),
+                9: new Element(9, "F", "Fluorine", "Halogen"),
+                10: new Element(10, "Ne", "Neon", "Noble Gas"),
+                11: new Element(11, "Na", "Sodium", "Alkali Metal"),
+                12: new Element(12, "Mg", "Magnesium", "Alkaline Earth Metal"),
+                13: new Element(13, "Al", "Aluminium", "Post-Transition Metal"),
+                14: new Element(14, "Si", "Silicon", "Metalloid"),
+                15: new Element(15, "P", "Phosphorus", "Nonmetal"),
+                16: new Element(16, "S", "Sulfur", "Nonmetal"),
+                17: new Element(17, "Cl", "Chlorine", "Halogen"),
+                18: new Element(18, "Ar", "Argon", "Noble Gas"),
+                19: new Element(19, "K", "Potassium", "Alkali Metal"),
+                20: new Element(20, "Ca", "Calcium", "Alkaline Earth Metal"),
+            };
+
+            return elements[atomicNumber] || null;
+        }
+
+        document.getElementById("elementForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            const atomicNumber = parseInt(document.getElementById("atomicNumber").value, 10);
+            const outputDiv = document.getElementById("output");
+
+            if (!isNaN(atomicNumber) && atomicNumber >= 1 && atomicNumber <= 20) {
+                const element = getElement(atomicNumber);
+                if (element) {
+                    outputDiv.innerHTML = element.display();
+                } else {
+                    outputDiv.innerHTML = `<p class="error">Element not found. Please enter a number between 1 and 20.</p>`;
+                }
+            } else {
+                outputDiv.innerHTML = `<p class="error">Invalid input. Please enter a numeric value between 1 and 20.</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
